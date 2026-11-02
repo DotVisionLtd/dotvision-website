@@ -1,0 +1,8 @@
+{
+  "name": "dotvision-site",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": { "build": "node scripts/copy-fonts.mjs" },
+  "dependencies": { "@fontsource/bai-jamjuree": "^5.0.0" },
+  "engines": { "node": ">=20" }
+}
