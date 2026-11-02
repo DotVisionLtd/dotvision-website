@@ -1,0 +1,4 @@
+Contact: mailto:info@dotvision.io
+Expires: 2027-11-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://dotvision.io/.well-known/security.txt

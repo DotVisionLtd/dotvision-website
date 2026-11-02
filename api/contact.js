@@ -3,7 +3,7 @@
 //   RESEND_API_KEY   - Resend API key (sending domain dotvision.io verified)
 //   CONTACT_TO       - recipient, e.g. info@dotvision.io
 //   CONTACT_FROM     - sender, e.g. "Dot Vision website <web@dotvision.io>"
-//   TURNSTILE_SECRET - Cloudflare Turnstile secret key (if set, the check is required)
+//   TURNSTILE_SECRET - Cloudflare Turnstile secret key (required in production; without it the form refuses to send)
 // Nothing is stored: the message is emailed and then discarded.
 
 const WINDOW_MS = 10 * 60 * 1000;
@@ -72,6 +72,8 @@ module.exports = async function handler(req, res) {
   if (/[\r\n]/.test(name + email + company)) return json(res, 400, { error: "invalid" });
 
   const secret = process.env.TURNSTILE_SECRET;
+  // Fail closed in production: without the Turnstile secret the form does not send at all.
+  if (!secret && process.env.VERCEL_ENV === "production") return json(res, 503, { error: "not_configured" });
   if (secret) {
     const token = clean(body["cf-turnstile-response"], 4096);
     if (!token) return json(res, 400, { error: "captcha" });
