@@ -327,3 +327,5 @@ section{scroll-margin-top:80px}
   .d-hub{justify-self:center;width:auto;aspect-ratio:auto;border-radius:999px;padding:10px 18px;white-space:nowrap;display:block}
   .d-hub::before{content:"↓ ";}.d-hub::after{content:" ↓"}
 }
+
+[hidden]{display:none!important}
