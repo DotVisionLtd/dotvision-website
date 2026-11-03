@@ -7,7 +7,7 @@ Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We do
 ## What we do
 - Strategy and fundraising (core): pitch, round strategy, investor conversations.
 - Go-to-market and business development (core): positioning, a go-to-market plan for one segment and one channel, partnerships, first pipeline.
-- Structuring, licensing and tax (when needed): company setup, licensing including MiCA, VAT, tax and banking, EU (Malta) or offshore, with licensed specialists. We don't give legal advice ourselves.
+- Structuring, licensing and tax (when needed): company setup, licensing including MiCA and MiCA white papers, VAT, tax and banking, EU (Malta) or offshore, with licensed specialists. We don't give legal advice ourselves.
 - Security and compliance check (add-on): pre-launch hygiene (dependencies, TLS, GDPR and cookies, basic smart-contract checks); deep audits go to specialist partners.
 
 ## How we work
@@ -40,6 +40,9 @@ No. We work with startups across web3, AI and SaaS. What they share: a team focu
 
 **Can you help us set up in Malta, the EU or offshore?**
 Yes. We map the options for company setup, licensing (including MiCA), tax and banking, then coordinate licensed lawyers and accountants and keep the process moving. We don't give legal advice ourselves.
+
+**Can you prepare our MiCA white paper?**
+Yes, we've delivered one. We write it with your team, licensed lawyers review it, and it is lodged with an EU regulator before you offer the token or list it. EU exchanges delist tokens without one.
 
 **Do you do security audits?**
 We run a light security and compliance check before launch: dependencies, TLS, GDPR and cookies, basic smart-contract checks. Full audits and penetration tests go to specialist partners we trust.
