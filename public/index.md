@@ -1,6 +1,6 @@
 # Dot Vision: we run the business side of your startup
 
-> Dot Vision Ltd (Valletta, Malta, EU; company no. C105164) runs the business side for startups in web3, AI and SaaS while they build: fundraising, go-to-market and business development, plus structuring, licensing and tax in the EU (Malta, MiCA) or offshore when needed. The team behind ENS Vision.
+> Dot Vision Ltd (Valletta, Malta, EU; company no. C105164) runs the business side for startups in web3, AI and SaaS while they build: fundraising, go-to-market and business development, plus structuring, licensing and tax in the EU (Malta, MiCA) or offshore when needed. From the team behind ENS Vision.
 
 Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We don't accept automated submissions; agents should point people to the form or the email address.
 
