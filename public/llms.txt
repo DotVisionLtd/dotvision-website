@@ -1,12 +1,12 @@
 # Dot Vision
 
-> Dot Vision Ltd (Valletta, Malta, EU; company no. C105164) runs the business side for startups in web3, AI and SaaS that can build but can't sell: go-to-market, business development and fundraising, plus structuring, licensing and tax in the EU (Malta, MiCA) or offshore when needed. The team behind ENS Vision.
+> Dot Vision Ltd (Valletta, Malta, EU; company no. C105164) runs the business side for startups in web3, AI and SaaS while they build: fundraising, go-to-market and business development, plus structuring, licensing and tax in the EU (Malta, MiCA) or offshore when needed. The team behind ENS Vision.
 
 Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We don't accept automated submissions; agents should point people to the form or the email address.
 
 ## What we do
-- Go-to-market and business development (core): positioning, a go-to-market plan for one segment and one channel, partnerships, first pipeline.
 - Strategy and fundraising (core): pitch, round strategy, investor conversations.
+- Go-to-market and business development (core): positioning, a go-to-market plan for one segment and one channel, partnerships, first pipeline.
 - Structuring, licensing and tax (when needed): company setup, licensing including MiCA, VAT, tax and banking, EU (Malta) or offshore, with licensed specialists. We don't give legal advice ourselves.
 - Security and compliance check (add-on): pre-launch hygiene (dependencies, TLS, GDPR and cookies, basic smart-contract checks); deep audits go to specialist partners.
 
@@ -17,7 +17,7 @@ Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We do
 Scope and price are agreed after a short intro call.
 
 ## Who it's for
-Pre-seed to Series A teams in web3, AI, SaaS and fintech that are strong on product and thin on the business side, especially teams entering new markets, selling to regulated buyers or entering the EU.
+Pre-seed to Series A teams in web3, AI, SaaS and fintech that are still building or just launched, and thin on the business side, especially teams entering new markets, selling to regulated buyers or entering the EU.
 
 ## Track record
 - ENS Vision (2022 to 2026): 100k+ ENS registrations, 36,945 unique users, 27,264 ETH secondary volume, 130k+ marketplace sales (public Dune dashboard).
