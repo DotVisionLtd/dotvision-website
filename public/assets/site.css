@@ -329,3 +329,6 @@ section{scroll-margin-top:80px}
 }
 
 [hidden]{display:none!important}
+
+.mt10{margin-top:10px}.mt20{margin-top:20px}.mt22{margin-top:22px}.mt24{margin-top:24px}
+.m20-32{margin:20px 0 32px}

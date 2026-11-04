@@ -3,7 +3,7 @@
 //   RESEND_API_KEY   - Resend API key (sending domain dotvision.io verified)
 //   CONTACT_TO       - recipient, e.g. info@dotvision.io
 //   CONTACT_FROM     - sender, e.g. "Dot Vision website <web@dotvision.io>"
-//   TURNSTILE_SECRET - Cloudflare Turnstile secret key (required in production; without it the form refuses to send)
+//   TURNSTILE_SECRET - Cloudflare Turnstile secret key (required everywhere; without it the form refuses to send)
 // Nothing is stored: the message is emailed and then discarded.
 
 const WINDOW_MS = 10 * 60 * 1000;
@@ -32,7 +32,7 @@ function limited(ip) {
 }
 
 async function readBody(req) {
-  if (req.body && typeof req.body === "object") return req.body;
+  if (req.body && typeof req.body === "object" && !Array.isArray(req.body)) return req.body;
   const chunks = [];
   let size = 0;
   for await (const c of req) {
@@ -41,7 +41,8 @@ async function readBody(req) {
     chunks.push(c);
   }
   const raw = Buffer.concat(chunks).toString("utf8");
-  return raw ? JSON.parse(raw) : {};
+  const parsed = raw ? JSON.parse(raw) : {};
+  return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
 }
 
 const clean = (v, max) => String(v == null ? "" : v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max);
@@ -59,7 +60,7 @@ module.exports = async function handler(req, res) {
   // Honeypot and timing: bots fill hidden fields and submit instantly. Pretend success.
   if (clean(body.website, 200)) return json(res, 200, { ok: true });
   const t = Number(body.t);
-  if (!t || Date.now() - t < 3000) return json(res, 200, { ok: true });
+  if (!t || Date.now() - t < 3000) return json(res, 400, { error: "too_fast" });
 
   const ip = clientIp(req);
   if (limited(ip)) return json(res, 429, { error: "rate_limited" });
@@ -72,9 +73,9 @@ module.exports = async function handler(req, res) {
   if (/[\r\n]/.test(name + email + company)) return json(res, 400, { error: "invalid" });
 
   const secret = process.env.TURNSTILE_SECRET;
-  // Fail closed in production: without the Turnstile secret the form does not send at all.
-  if (!secret && process.env.VERCEL_ENV === "production") return json(res, 503, { error: "not_configured" });
-  if (secret) {
+  // Fail closed everywhere (production and previews): without the Turnstile secret the form does not send at all.
+  if (!secret) return json(res, 503, { error: "not_configured" });
+  {
     const token = clean(body["cf-turnstile-response"], 4096);
     if (!token) return json(res, 400, { error: "captcha" });
     try {
@@ -84,6 +85,7 @@ module.exports = async function handler(req, res) {
         body: new URLSearchParams({ secret, response: token, remoteip: ip }),
       }).then((r) => r.json());
       if (!v.success) return json(res, 400, { error: "captcha" });
+      if (v.hostname && v.hostname !== host.split(":")[0]) return json(res, 400, { error: "captcha" });
     } catch (e) { return json(res, 502, { error: "captcha" }); }
   }
 

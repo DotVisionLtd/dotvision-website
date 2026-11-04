@@ -124,6 +124,7 @@
         if (code === "not_configured") say("The form isn't connected yet. Please email info@dotvision.io.", "err");
         else if (code === "rate_limited") say("Too many messages in a short time. Please try again in a few minutes or email info@dotvision.io.", "err");
         else if (code === "captcha") say("The spam check didn't pass. Please try again.", "err");
+        else if (code === "too_fast") say("That was quick. Please check the message and send it again.", "err");
         else say("The message couldn't be sent. Please try again or email info@dotvision.io.", "err");
         if (window.turnstile) window.turnstile.reset();
       })
