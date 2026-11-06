@@ -9,6 +9,7 @@ Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We do
 - Go-to-market and business development (core): positioning, a go-to-market plan for one segment and one channel, partnerships, first pipeline.
 - Structuring, licensing and tax (when needed): company setup, licensing including MiCA and MiCA white papers, VAT, tax and banking, EU (Malta) or offshore, with licensed specialists. We don't give legal advice ourselves.
 - Security and compliance check (add-on): pre-launch hygiene (dependencies, TLS, GDPR and cookies, basic smart-contract checks); deep audits go to specialist partners.
+- Product development (with our engineering partner Schatzl IT Solutions, Graz, Austria, https://schits.at/en): web3 and web2 products, from smart contracts, indexers and marketplaces to apps and backends, plus technical reviews before a raise.
 
 ## How we work
 1. Basics check: fixed-scope first step.
@@ -46,6 +47,9 @@ Yes, we've delivered one. We write it with your team, licensed lawyers review it
 
 **Do you do security audits?**
 We run a light security and compliance check before launch: dependencies, TLS, GDPR and cookies, basic smart-contract checks. Full audits and penetration tests go to specialist partners we trust.
+
+**Can you build the product too?**
+Yes, with our engineering partner Schatzl IT Solutions in Graz, Austria: web3 and web2 products, from smart contracts to apps and backends, plus technical reviews before you raise. If you have your own developers, we can bring our partner in for extra hands or a second opinion.
 
 **Where are you based?**
 Dot Vision Ltd is a company registered in Malta, in the EU. We work remotely with teams worldwide.
