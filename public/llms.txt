@@ -7,7 +7,7 @@ Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We do
 ## What we do
 - Strategy and fundraising (core): pitch, round strategy, investor conversations.
 - Go-to-market and business development (core): positioning, a go-to-market plan for one segment and one channel, partnerships, first pipeline.
-- Structuring, licensing and tax (when needed): company setup, licensing including MiCA and MiCA white papers, VAT, tax and banking, EU (Malta) or offshore, with licensed specialists. We don't give legal advice ourselves.
+- Structuring, licensing and tax (when needed): company setup, licensing including MiCA and MiCA white papers, VAT, tax and banking, EU (Malta) or offshore, with our legal partner MK Fintech Partners (Malta) and licensed accountants. We don't practice law ourselves.
 - Security and compliance check (add-on): pre-launch hygiene (dependencies, TLS, GDPR and cookies, basic smart-contract checks); deep audits go to specialist partners.
 - Product development (with our engineering partner Schatzl IT Solutions, Graz, Austria, https://schits.at/en): web3 and web2 products, from smart contracts, indexers and marketplaces to apps and backends, plus technical reviews before a raise.
 
