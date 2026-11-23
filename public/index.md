@@ -7,15 +7,15 @@ Contact: info@dotvision.io (or the form at https://dotvision.io/#contact). We do
 ## What we do
 - Strategy and fundraising (core): pitch, round strategy, investor conversations.
 - Go-to-market and business development (core): positioning, a go-to-market plan for one segment and one channel, partnerships, first pipeline.
-- Structuring, licensing and tax (when needed): company setup, licensing including MiCA and MiCA white papers, VAT, tax and banking, EU (Malta) or offshore, with our legal partner MK Fintech Partners (Malta, https://mkfintechpartners.com/) and licensed accountants. We't practice law ourselves.
+- Structuring, licensing and tax (when needed): company setup, licensing including MiCA and MiCA white papers, VAT, tax and banking, EU (Malta) or offshore, with our legal partner MK Fintech Partners (Malta, https://mkfintechpartners.com/) and licensed accountants. We don't practice law ourselves.
 - Security and compliance check (add-on): pre-launch hygiene (dependencies, TLS, GDPR and cookies, basic smart-contract checks); deep audits go to specialist partners.
 - Product development (add-on, with our engineering partner Schatzl IT Solutions, Graz, Austria, https://schits.at/en): web3 and web2 products, from smart contracts, indexers and marketplaces to apps and backends, plus technical reviews before a raise.
 
 ## How we work
-1. Basics check: fixed-scope first step.
-2. Go-to-market sprint: 2 to 4 weeks, fixed price.
-3. Monthly retainer: month to month, no long contracts.
-Scope and price are agreed after a short intro call.
+1. Intro call: free, 20 to 30 minutes. We agree scope and price.
+2. Basics check: paid, fixed scope, written findings.
+3. Go-to-market sprint: 2 to 4 weeks, fixed price.
+4. Monthly retainer: month to month, no long contracts.
 
 ## Who it's for
 Pre-seed to Series A teams in web3, AI, SaaS and fintech that are still building or just launched, and thin on the business side, especially teams entering new markets, selling to regulated buyers or entering the EU.
@@ -34,7 +34,7 @@ Products rarely die because of the code. They die because nobody runs the busine
 A fixed-price sprint of 2 to 4 weeks. We start with a basics check, then sharpen who you sell to and why they'd switch, build a go-to-market plan for one segment and one channel, and open the first conversations with real buyers and partners.
 
 **How much does it cost?**
-Every sprint has a fixed scope and a fixed price, agreed after a short intro call. If it works, we continue month to month. No long contracts.
+The intro call is free. Every step after it has a fixed scope and a fixed price, agreed on that call. If it works, we continue month to month. No long contracts.
 
 **Do you only work with crypto projects?**
 No. We work with startups across web3, AI and SaaS. What they share: a team focused on building, and a business side that is thin or missing.
