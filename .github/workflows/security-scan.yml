@@ -1,0 +1,174 @@
+# Dot Vision security check: drop this file into every repo at .github/workflows/security-scan.yml
+# Runs on every pull request and every push to main. Version 1.0, 28 Nov 2026.
+#
+# Blocks the merge on: leaked secrets, high-severity code findings, risky workflow files,
+#                      high-severity smart-contract findings, failing contract tests.
+# Reports only (for now): dependency vulnerabilities. Switch to blocking once a repo's backlog is clear.
+#
+# Every action is pinned to a full commit SHA (resolved with git ls-remote on 28 Nov 2026)
+# and every tool to an exact version. To update: resolve the new tag's commit, never use @main or @vX.
+
+name: Security scan
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-scan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secrets:
+    name: Secrets (Gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0            # full history, so secrets in old commits are found too
+          persist-credentials: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: stable
+          cache: false
+      - name: Install Gitleaks v8.30.1 (checksum-verified by the Go module proxy)
+        run: go install github.com/zricethezav/gitleaks/v8@v8.30.1
+      - name: Scan git history
+        run: "$(go env GOPATH)/bin/gitleaks git --redact --no-banner --exit-code 1 ."
+      - name: Scan working tree (catches untracked .env files)
+        run: "$(go env GOPATH)/bin/gitleaks dir --redact --no-banner --exit-code 1 ."
+
+  code:
+    name: Code (Semgrep)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install Semgrep 1.187.0
+        run: python -m pip install --disable-pip-version-check semgrep==1.187.0
+      - name: Scan (blocks on ERROR severity; no code or metrics are sent)
+        run: |
+          semgrep scan --metrics=off \
+            --config p/default --config p/owasp-top-ten --config p/secrets \
+            --severity ERROR --error \
+            --exclude node_modules --exclude lib --exclude vendor .
+
+  dependencies:
+    name: Dependencies (OSV-Scanner, report only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true         # remove this line once the repo's dependency backlog is cleared
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: stable
+          cache: false
+      - name: Install OSV-Scanner v2.7.1
+        run: go install github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.7.1
+      - name: Scan lock files (package names and versions go to osv.dev; no code)
+        run: |
+          if ! find . -path ./node_modules -prune -o \( -name package-lock.json -o -name pnpm-lock.yaml -o -name yarn.lock \
+               -o -name requirements.txt -o -name poetry.lock -o -name uv.lock -o -name go.sum -o -name Cargo.lock \) -print | grep -q .; then
+            echo "::warning::No lock file found. Dependencies cannot be checked. Commit a lock file (e.g. package-lock.json)."
+            exit 0
+          fi
+          "$(go env GOPATH)/bin/osv-scanner" scan source -r .
+
+  workflows:
+    name: CI workflows (zizmor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install zizmor 1.33.1
+        run: python -m pip install --disable-pip-version-check zizmor==1.33.1
+      - name: Scan workflow files (offline)
+        run: zizmor --offline --min-severity medium .github/workflows
+
+  contracts:
+    name: Smart contracts (Slither, Solhint, tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: recursive     # Foundry keeps libraries (OpenZeppelin, forge-std) as submodules
+      - name: Any Solidity in this repo?
+        id: detect
+        run: |
+          if find . -name '*.sol' -not -path './lib/*' -not -path './node_modules/*' -print -quit | grep -q .; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"; echo "No Solidity files; contract checks skipped."
+          fi
+          if [ -f foundry.toml ]; then echo "foundry=true" >> "$GITHUB_OUTPUT"; else echo "foundry=false" >> "$GITHUB_OUTPUT"; fi
+          if ls hardhat.config.* >/dev/null 2>&1; then echo "hardhat=true" >> "$GITHUB_OUTPUT"; else echo "hardhat=false" >> "$GITHUB_OUTPUT"; fi
+
+      - if: steps.detect.outputs.found == 'true' && steps.detect.outputs.foundry == 'true'
+        uses: foundry-rs/foundry-toolchain@dba66c27052e63476d886f22216e119ba7e615bf # v1.9.2
+      - if: steps.detect.outputs.found == 'true'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+      - if: steps.detect.outputs.found == 'true'
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install project packages (Hardhat projects)
+        if: steps.detect.outputs.found == 'true' && steps.detect.outputs.hardhat == 'true'
+        run: npm ci --ignore-scripts
+
+      - name: Tests (must pass)
+        if: steps.detect.outputs.found == 'true'
+        env:
+          IS_FOUNDRY: ${{ steps.detect.outputs.foundry }}
+          IS_HARDHAT: ${{ steps.detect.outputs.hardhat }}
+        run: |
+          if [ "$IS_FOUNDRY" = "true" ]; then
+            forge build --sizes
+            forge test -vv
+          elif [ "$IS_HARDHAT" = "true" ]; then
+            npx hardhat test
+          else
+            echo "::error::Solidity found but no Foundry or Hardhat project, so there are no tests. Contracts without tests do not pass."
+            exit 1
+          fi
+
+      - name: Lint (Solhint 6.2.5)
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          [ -f .solhint.json ] || echo '{"extends":"solhint:recommended"}' > .solhint.json
+          mapfile -t files < <(find . -name '*.sol' -not -path './lib/*' -not -path './node_modules/*' \
+            -not -path './test/*' -not -path './script/*' -not -name '*.t.sol' -not -name '*.s.sol')
+          [ "${#files[@]}" -gt 0 ] || { echo "Only test or script files; nothing to lint."; exit 0; }
+          npx --yes solhint@6.2.5 --max-warnings 0 --noPrompt "${files[@]}" || {
+            echo "::error::Solhint found problems (warnings count too)."; exit 1; }
+
+      - name: Static analysis (Slither 0.11.6, blocks on High)
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          python -m pip install --disable-pip-version-check slither-analyzer==0.11.6
+          slither . --fail-high \
+            --filter-paths "lib/|node_modules/|test/|script/" \
+            --exclude-dependencies
